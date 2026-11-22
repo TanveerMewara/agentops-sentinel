@@ -1,40 +1,39 @@
-# Render Blueprint for the AgentOps Sentinel backend.
-# Uses Render's native Python runtime (no Docker needed). The Dockerfile is kept
-# only for hosts that require an image (Railway, Fly.io).
-# The database is external (Neon, Supabase, or Render Postgres): paste its URL
-# into SENTINEL_DATABASE_URL when Render asks for unsynced values.
+# Render Blueprint for the AgentOps Sentinel backend - free tier, native Python (no Docker).
+#
+# One free web service runs the API *and* the background worker, because Render has no
+# free background-worker instances. The worker polls the API over loopback every 5 s and
+# is restarted if it exits. Free instances sleep after 15 minutes without inbound traffic,
+# so the worker only runs while the API is awake; the first request after a sleep takes
+# about a minute. For an always-on paid setup, see docs/deploy-vercel.md ("Upgrading").
+#
+# The database is external (Neon free tier, Singapore). Use Neon's *direct* (non-pooled)
+# connection string for SENTINEL_DATABASE_URL; secrets are entered when Render asks for
+# unsynced values. Live: https://agentops-sentinel-api.onrender.com/health
 services:
   - type: web
-    name: sentinel-api
+    name: agentops-sentinel-api
     runtime: python
-    plan: starter
+    plan: free
+    region: singapore
     buildCommand: pip install --upgrade pip && pip install .
-    # --proxy-headers lets the API see the original https scheme behind Render's
-    # load balancer, so session cookies are issued with the Secure flag.
-    startCommand: uvicorn sentinel.asgi:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'
+    # --proxy-headers lets the API see the original https scheme behind Render's load
+    # balancer, so session cookies are issued with the Secure flag.
+    startCommand: >-
+      (while true; do SENTINEL_API_URL="http://127.0.0.1:$PORT" python -c
+      "from sentinel.worker import from_environment; from_environment().run_forever(interval_seconds=5)";
+      echo 'worker exited; restarting in 5s'; sleep 5; done) &
+      exec uvicorn sentinel.asgi:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: SENTINEL_DATABASE_URL
-        sync: false
+        sync: false   # Neon direct connection string (sslmode=require)
       - key: SENTINEL_AUTH_PEPPER
-        sync: false
+        sync: false   # from: python scripts/bootstrap_hosted.py secrets
       - key: SENTINEL_CREDENTIAL_ENCRYPTION_KEY
-        sync: false
+        sync: false   # from: python scripts/bootstrap_hosted.py secrets
       - key: SENTINEL_ALLOWED_ORIGINS
-        sync: false   # e.g. https://agentops-sentinel.vercel.app
-
-  - type: worker
-    name: sentinel-worker
-    runtime: python
-    plan: starter
-    buildCommand: pip install --upgrade pip && pip install .
-    startCommand: python -m sentinel.worker
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
-      - key: SENTINEL_API_URL
-        sync: false   # the sentinel-api public URL, e.g. https://sentinel-api.onrender.com
+        sync: false   # the dashboard URL, e.g. https://agentops-sentinel-blush.vercel.app
       - key: SENTINEL_WORKER_API_KEY
-        sync: false   # printed once by scripts/bootstrap_hosted.py
+        sync: false   # the worker key printed once by scripts/bootstrap_hosted.py seed

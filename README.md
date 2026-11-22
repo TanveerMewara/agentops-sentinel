@@ -5,6 +5,17 @@ security platform for AI agents across domains. EstateFlow AI is an optional
 example integration, alongside the independent support-triage example. Connecting
 your agent does not require leads, property listings, calendars or CRM records.
 
+## Live deployment
+
+- **Dashboard:** https://agentops-sentinel-blush.vercel.app (Vercel)
+- **API health:** https://agentops-sentinel-api.onrender.com/health (Render, Singapore)
+- **Database:** Neon Postgres 17 (Singapore)
+
+It runs on free tiers: the API sleeps after 15 minutes without traffic, so the first
+request after a pause takes about a minute. Connecting the dashboard to the API
+requires an API key. Setup, free-tier notes and the always-on upgrade path are in
+[docs/deploy-vercel.md](docs/deploy-vercel.md).
+
 The dashboard opens on a general agent workspace with a cinematic featured-agent
 area and horizontally scrollable fleet, recent-activity and review rows. Cards
 use live registry data; selection opens configuration controls. No fictional
