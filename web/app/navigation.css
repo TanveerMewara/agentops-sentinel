@@ -1,0 +1,9 @@
+#overview, #operation-queue, #lead-intake, #engagement-queue,
+#platform-evidence, #operations-overview, #access-administration {
+  scroll-margin-top: 88px;
+}
+
+.primary-nav .nav-item:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}

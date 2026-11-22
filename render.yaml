@@ -1,0 +1,40 @@
+# Render Blueprint for the AgentOps Sentinel backend.
+# Uses Render's native Python runtime (no Docker needed). The Dockerfile is kept
+# only for hosts that require an image (Railway, Fly.io).
+# The database is external (Neon, Supabase, or Render Postgres): paste its URL
+# into SENTINEL_DATABASE_URL when Render asks for unsynced values.
+services:
+  - type: web
+    name: sentinel-api
+    runtime: python
+    plan: starter
+    buildCommand: pip install --upgrade pip && pip install .
+    # --proxy-headers lets the API see the original https scheme behind Render's
+    # load balancer, so session cookies are issued with the Secure flag.
+    startCommand: uvicorn sentinel.asgi:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SENTINEL_DATABASE_URL
+        sync: false
+      - key: SENTINEL_AUTH_PEPPER
+        sync: false
+      - key: SENTINEL_CREDENTIAL_ENCRYPTION_KEY
+        sync: false
+      - key: SENTINEL_ALLOWED_ORIGINS
+        sync: false   # e.g. https://agentops-sentinel.vercel.app
+
+  - type: worker
+    name: sentinel-worker
+    runtime: python
+    plan: starter
+    buildCommand: pip install --upgrade pip && pip install .
+    startCommand: python -m sentinel.worker
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SENTINEL_API_URL
+        sync: false   # the sentinel-api public URL, e.g. https://sentinel-api.onrender.com
+      - key: SENTINEL_WORKER_API_KEY
+        sync: false   # printed once by scripts/bootstrap_hosted.py

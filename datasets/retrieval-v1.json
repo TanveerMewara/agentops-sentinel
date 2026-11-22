@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "city": "Gurugram Benchmark",
+  "properties": [
+    {"external_key":"bench-v1-pool","title":"Pool apartment on Golf Course Road","description":"Three bedroom apartment with swimming pool, clubhouse and a view of the golf course.","city":"Gurugram Benchmark","locality":"Golf Course Road","property_type":"apartment","bedrooms":3,"price_inr":"24500000.00","amenities":["pool","clubhouse","gym"],"source_uri":"https://estateflow.example/benchmark/pool"},
+    {"external_key":"bench-v1-metro","title":"Metro-side apartment","description":"Two bedroom home near the rapid metro, offices and shopping.","city":"Gurugram Benchmark","locality":"Sector 55","property_type":"apartment","bedrooms":2,"price_inr":"12000000.00","amenities":["parking","gym"],"source_uri":"https://estateflow.example/benchmark/metro"},
+    {"external_key":"bench-v1-family","title":"Family house beside a park","description":"Four bedroom house with a play area near schools and a neighbourhood park.","city":"Gurugram Benchmark","locality":"Sector 46","property_type":"house","bedrooms":4,"price_inr":"35000000.00","amenities":["parking","play area"],"source_uri":"https://estateflow.example/benchmark/family"},
+    {"external_key":"bench-v1-garden","title":"Private garden villa","description":"Four bedroom villa with a quiet garden and outdoor dining space.","city":"Gurugram Benchmark","locality":"Sushant Lok","property_type":"villa","bedrooms":4,"price_inr":"28000000.00","amenities":["garden","parking"],"source_uri":"https://estateflow.example/benchmark/garden"},
+    {"external_key":"bench-v1-budget","title":"Affordable one bedroom home","description":"Compact apartment for a first-time buyer with practical storage.","city":"Gurugram Benchmark","locality":"Sector 83","property_type":"apartment","bedrooms":1,"price_inr":"6000000.00","amenities":["parking"],"source_uri":"https://estateflow.example/benchmark/budget"},
+    {"external_key":"bench-v1-office","title":"Office space near business district","description":"Commercial workspace with meeting rooms and reliable parking.","city":"Gurugram Benchmark","locality":"Cyber City","property_type":"commercial","price_inr":"19000000.00","amenities":["parking","meeting rooms"],"source_uri":"https://estateflow.example/benchmark/office"},
+    {"external_key":"bench-v1-plot","title":"Residential land plot","description":"Open plot suitable for a custom family home, close to the main road.","city":"Gurugram Benchmark","locality":"Sector 102","property_type":"plot","price_inr":"13000000.00","amenities":[],"source_uri":"https://estateflow.example/benchmark/plot"},
+    {"external_key":"bench-v1-rooftop","title":"Luxury rooftop penthouse","description":"Three bedroom top-floor apartment with a private terrace and skyline views.","city":"Gurugram Benchmark","locality":"DLF Phase 5","property_type":"apartment","bedrooms":3,"price_inr":"40000000.00","amenities":["terrace","gym"],"source_uri":"https://estateflow.example/benchmark/rooftop"}
+  ],
+  "queries": [
+    {"query":"swimming pool apartment near golf course","filters":{"property_type":"apartment","min_bedrooms":3},"relevant":["bench-v1-pool"]},
+    {"query":"easy commute to metro and offices","filters":{"property_type":"apartment","max_price_inr":"15000000.00"},"relevant":["bench-v1-metro"]},
+    {"query":"quiet family villa with outdoor garden","filters":{"property_type":"villa"},"relevant":["bench-v1-garden"]},
+    {"query":"budget first home one bedroom","filters":{"property_type":"apartment","max_price_inr":"7000000.00"},"relevant":["bench-v1-budget"]},
+    {"query":"workspace with meeting rooms","filters":{"property_type":"commercial"},"relevant":["bench-v1-office"]},
+    {"query":"land for a custom house","filters":{"property_type":"plot"},"relevant":["bench-v1-plot"]},
+    {"query":"large family house near park","filters":{"property_type":"house","min_bedrooms":4},"relevant":["bench-v1-family"]},
+    {"query":"private rooftop terrace apartment","filters":{"property_type":"apartment","min_bedrooms":3},"relevant":["bench-v1-rooftop"]},
+    {"query":"place to take a dip without leaving home","filters":{"property_type":"apartment","min_bedrooms":2},"relevant":["bench-v1-pool"]},
+    {"query":"walk to a train stop for the daily commute","filters":{"property_type":"apartment","max_price_inr":"15000000.00"},"relevant":["bench-v1-metro"]},
+    {"query":"leafy secluded retreat for a family","filters":{"min_bedrooms":3},"relevant":["bench-v1-garden"]},
+    {"query":"buy a parcel and construct my own house","filters":{"max_price_inr":"15000000.00"},"relevant":["bench-v1-plot"]}
+  ]
+}

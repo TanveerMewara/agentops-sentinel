@@ -1,0 +1,29 @@
+{
+  "completed_at": "2026-09-22T21:21:58.650486+00:00",
+  "coverage": {
+    "covered_lines": 1589,
+    "important_modules_percent": {
+      "evaluations.py": 37.92,
+      "external_traces.py": 43.94,
+      "failure_diagnostics.py": 52.54,
+      "model_gateway.py": 67.41,
+      "runs.py": 3.83,
+      "telemetry.py": 46.61,
+      "trace_recorder.py": 71.79
+    },
+    "missing_lines": 3808,
+    "num_statements": 5397,
+    "percent": 31.73,
+    "scope": "discoverable test_*.py unit suite; src/sentinel; branch coverage enabled"
+  },
+  "error_ids": [],
+  "errors": 0,
+  "failed": 0,
+  "failure_ids": [],
+  "pass_rate": 1.0,
+  "passed": 225,
+  "skipped": 0,
+  "skipped_ids": [],
+  "successful": true,
+  "total": 225
+}

@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=75", "wheel>=0.45"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentops-sentinel"
+version = "0.1.0"
+description = "Reliability, evaluation, observability, and security for AI agents"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.139.2",
+    "uvicorn==0.51.0",
+    "psycopg[binary]==3.3.5",
+    "psycopg-pool==3.3.1",
+    "jsonschema==4.26.0",
+    "langgraph==1.2.11",
+    "langchain-core==1.6.2",
+    "langgraph-checkpoint-postgres==3.1.2",
+    "openai==3.11.0",
+    "openai-agents==0.22.3",
+    "opentelemetry-proto==1.44.0",
+    "protobuf==7.35.1",
+    "cryptography==50.0.1",
+]
+
+[project.optional-dependencies]
+dev = ["coverage==7.10.7"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/sentinel"]
+omit = ["*/migrations/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sentinel = ["migrations/*.sql"]

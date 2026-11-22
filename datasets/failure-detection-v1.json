@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "dataset_id": "failure-detection-v1",
+  "description": "Controlled synthetic structured observations with one primary ground-truth label per scenario.",
+  "scenarios": [
+    {"id":"success-01","ground_truth":"no_failure","observation":{},"outcome":{"successful":true,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":0}},
+    {"id":"success-02","ground_truth":"no_failure","observation":{"api_status":201},"outcome":{"successful":true,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":2,"tool_failures":0}},
+    {"id":"success-03","ground_truth":"no_failure","observation":{"tool_status":"completed"},"outcome":{"successful":true,"retry_attempted":true,"retry_succeeded":true,"recovery_attempted":false,"recovered":false,"tool_calls":2,"tool_failures":0}},
+    {"id":"success-04","ground_truth":"no_failure","observation":{"api_status":204},"outcome":{"successful":true,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":true,"recovered":true,"tool_calls":1,"tool_failures":0}},
+
+    {"id":"tool-01","ground_truth":"tool_execution_failure","observation":{"tool_status":"failed"},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":1}},
+    {"id":"tool-02","ground_truth":"tool_execution_failure","observation":{"tool_status":"failed","api_status":200},"outcome":{"successful":true,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":true,"recovered":true,"tool_calls":2,"tool_failures":1}},
+    {"id":"timeout-01","ground_truth":"timeout","observation":{"timed_out":true},"outcome":{"successful":false,"retry_attempted":true,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":1}},
+    {"id":"timeout-02","ground_truth":"timeout","observation":{"timed_out":true,"tool_status":"failed"},"outcome":{"successful":true,"retry_attempted":true,"retry_succeeded":true,"recovery_attempted":true,"recovered":true,"tool_calls":2,"tool_failures":1}},
+    {"id":"arguments-01","ground_truth":"invalid_tool_arguments","observation":{"tool_arguments_valid":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":0,"tool_failures":0}},
+    {"id":"arguments-02","ground_truth":"invalid_tool_arguments","observation":{"tool_arguments_valid":false,"tool_status":"failed"},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":1}},
+    {"id":"llm-output-01","ground_truth":"malformed_llm_output","observation":{"llm_output_valid":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":0,"tool_failures":0}},
+    {"id":"llm-output-02","ground_truth":"malformed_llm_output","observation":{"llm_output_valid":false,"validation_passed":false},"outcome":{"successful":true,"retry_attempted":true,"retry_succeeded":true,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":0}},
+    {"id":"unsupported-01","ground_truth":"hallucinated_unsupported_response","observation":{"response_supported":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":0,"tool_failures":0}},
+    {"id":"unsupported-02","ground_truth":"hallucinated_unsupported_response","observation":{"response_supported":false,"validation_passed":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":0}},
+    {"id":"api-01","ground_truth":"api_failure","observation":{"api_status":503},"outcome":{"successful":false,"retry_attempted":true,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":1}},
+    {"id":"api-02","ground_truth":"api_failure","observation":{"api_status":429},"outcome":{"successful":true,"retry_attempted":true,"retry_succeeded":true,"recovery_attempted":true,"recovered":true,"tool_calls":2,"tool_failures":1}},
+    {"id":"retry-01","ground_truth":"retry_exhaustion","observation":{"retry_exhausted":true},"outcome":{"successful":false,"retry_attempted":true,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":3,"tool_failures":3}},
+    {"id":"retry-02","ground_truth":"retry_exhaustion","observation":{"retry_exhausted":true,"tool_status":"failed"},"outcome":{"successful":false,"retry_attempted":true,"retry_succeeded":false,"recovery_attempted":true,"recovered":false,"tool_calls":3,"tool_failures":3}},
+    {"id":"routing-01","ground_truth":"routing_failure","observation":{"route_valid":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":0,"tool_failures":0}},
+    {"id":"routing-02","ground_truth":"routing_failure","observation":{"route_valid":false,"tool_status":"failed"},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":1}},
+    {"id":"retrieval-01","ground_truth":"retrieval_failure","observation":{"retrieval_sufficient":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":0}},
+    {"id":"retrieval-02","ground_truth":"retrieval_failure","observation":{"retrieval_sufficient":false,"validation_passed":false},"outcome":{"successful":true,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":true,"recovered":true,"tool_calls":2,"tool_failures":0}},
+    {"id":"validation-01","ground_truth":"validation_failure","observation":{"validation_passed":false},"outcome":{"successful":false,"retry_attempted":false,"retry_succeeded":false,"recovery_attempted":false,"recovered":false,"tool_calls":1,"tool_failures":0}},
+    {"id":"validation-02","ground_truth":"validation_failure","observation":{"validation_passed":false,"tool_status":"completed"},"outcome":{"successful":true,"retry_attempted":true,"retry_succeeded":true,"recovery_attempted":false,"recovered":false,"tool_calls":2,"tool_failures":0}}
+  ]
+}

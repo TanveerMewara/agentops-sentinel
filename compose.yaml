@@ -1,0 +1,19 @@
+﻿name: sentinel-lessons
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: sentinel_lesson
+      POSTGRES_PASSWORD: local_lesson_only
+      POSTGRES_DB: sentinel_lesson
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - lesson_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel_lesson -d sentinel_lesson"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+volumes:
+  lesson_pgdata:

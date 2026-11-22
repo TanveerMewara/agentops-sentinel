@@ -1,0 +1,16 @@
+.venv
+.local
+.git
+.github
+web
+reports
+benchmarks
+datasets
+lessons
+docs
+examples
+tests
+**/__pycache__
+*.pyc
+.env
+.env.*
